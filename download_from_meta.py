@@ -2,19 +2,18 @@
 import yt_dlp
 import os, json, time, random, subprocess
 
-SAVE_ROOT = "/mnt/e/wild_gui_video"
+SAVE_ROOT = 
 META_PATH = os.path.join(SAVE_ROOT, "metadata.json")
-COOKIE_PATH = "/mnt/e/youtube_cookies.txt"
+COOKIE_PATH = 
 GLOBAL_ARCHIVE = os.path.join(SAVE_ROOT, "_downloaded_global.txt")
-SSH_KEY = "/mnt/e/shuhengc"
-REMOTE_USER = "shuheng"
-REMOTE_HOST = "38.80.122.165"
-REMOTE_DIR = "/export/home/wild_gui_video"
+SSH_KEY = 
+REMOTE_USER = 
+REMOTE_HOST = 
+REMOTE_DIR = 
 SYNC_INTERVAL = 10
 RETRY_LIMIT = 2
 
 def delete_local_files():
-    """删除已上传的本地视频（不删 metadata/json）"""
     for f in os.listdir(SAVE_ROOT):
         if f.endswith(".mp4"):
             full = os.path.join(SAVE_ROOT, f)
@@ -34,7 +33,7 @@ def rsync_upload():
     result = subprocess.run(cmd, check=False)
     if result.returncode == 0:
         print("✅ Rsync success — cleaning up local files...")
-        delete_local_files()  # ← 上传成功后清理
+        delete_local_files()
     else:
         print("⚠️ Rsync failed, skipped cleanup.")
 
