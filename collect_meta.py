@@ -57,7 +57,7 @@ def main():
     for cat, kws in CATEGORIES.items():
         for kw in kws:
             collect(kw, cat)
-            time.sleep(5)  # 防止触发搜索限流
+            time.sleep(5)  # avoid Youtube Limit
 
 if __name__ == "__main__":
     main()
