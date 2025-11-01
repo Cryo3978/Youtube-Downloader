@@ -21,7 +21,7 @@ Download speed mainly depends on your network connection.
    ```bash
    python download_from_meta.py
 
-##📝 Notes
+## 📝 Notes
 
 Make sure to check and update your CONFIGS (output paths, cookies, etc.) before running.
 
