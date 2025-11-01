@@ -1,7 +1,0 @@
-Excel tutorial
-Word tutorial
-PowerPoint tutorial
-How to use Windows / macOS / Ubuntu
-Using VSCode / PyCharm / Photoshop / Premiere
-Browser tips
-File management tutorial
