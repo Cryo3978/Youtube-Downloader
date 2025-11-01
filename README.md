@@ -6,3 +6,5 @@ Still usable 11/1/2025
 4. set CONFIGS and run download_from_meta.py
 
 If it violates any copyrights, please contact me and I will delete this project.
+
+Don't forget your stars if it's helpful!
