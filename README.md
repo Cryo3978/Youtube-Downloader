@@ -22,6 +22,7 @@ Download speed mainly depends on your network connection.
    python download_from_meta.py
 
 ## 📝 Notes
+COOKIES and PO_TOKEN should be collected by yourself and update them on CONFIGS when it doesn't work.
 
 Make sure to check and update your CONFIGS (output paths, cookies, etc.) before running.
 
