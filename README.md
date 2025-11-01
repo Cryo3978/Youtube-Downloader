@@ -1,10 +1,14 @@
-Still usable 11/1/2025
+# 🎬 YouTube Video Bulk Downloader
 
-1. set your env by requirements.txt.
-2. set your 'categories' in CATEGORIES
-3. set CONFIGS and run collect_meta.py
-4. set CONFIGS and run download_from_meta.py
+A simple and efficient tool for downloading large batches of YouTube videos.  
+Download speed mainly depends on your network connection.
 
-If it violates any copyrights, please contact me and I will delete this project.
+✅ **Still usable as of Nov 1, 2025**
 
-Don't forget your stars if it's helpful!
+---
+
+## ⚙️ Steps
+
+1. **Install dependencies**
+   ```bash
+   pip install -r requirements.txt
