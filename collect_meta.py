@@ -4,9 +4,9 @@ import os, json, datetime, time
 from tqdm import tqdm
 from CATEGORIES import CATEGORIES
 
-SAVE_ROOT = "/mnt/e/wild_gui_video"
+SAVE_ROOT = 
 META_PATH = os.path.join(SAVE_ROOT, "metadata.json")
-COOKIE_PATH = "/mnt/e/youtube_cookies.txt"
+COOKIE_PATH = 
 MAX_RESULTS = 3000
 
 def ensure_dir(p): os.makedirs(p, exist_ok=True)
