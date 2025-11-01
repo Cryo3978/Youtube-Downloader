@@ -4,6 +4,7 @@ import os, json, datetime, time
 from tqdm import tqdm
 from CATEGORIES import CATEGORIES
 
+# CONFIG
 SAVE_ROOT = 
 META_PATH = os.path.join(SAVE_ROOT, "metadata.json")
 COOKIE_PATH = 
