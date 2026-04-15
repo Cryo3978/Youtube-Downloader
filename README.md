@@ -29,5 +29,3 @@ Make sure to check and update your CONFIGS (output paths, cookies, etc.) before 
 If this project violates any copyrights, please contact me and I will remove it immediately.
 
 ⭐ If you find this helpful, please give it a star!
-
-Author: Shuheng Chen USC
