@@ -1,35 +1,40 @@
 # collect_meta.py
+import json
+import datetime
+import time
+
 import yt_dlp
-import os, json, datetime, time
 from tqdm import tqdm
+
 from CATEGORIES import CATEGORIES
+import config
 
-# CONFIG
-SAVE_ROOT = 
-META_PATH = os.path.join(SAVE_ROOT, "metadata.json")
-COOKIE_PATH = 
-MAX_RESULTS = 3000
+def load_json(path, default):
+    if not path.exists():
+        return default
+    with open(path, encoding="utf-8") as f:
+        return json.load(f)
 
-def ensure_dir(p): os.makedirs(p, exist_ok=True)
-def load_json(p, d): return json.load(open(p)) if os.path.exists(p) else d
-def save_json(p, d): json.dump(d, open(p, "w", encoding="utf-8"), indent=2, ensure_ascii=False)
+def save_json(path, data):
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(data, f, indent=2, ensure_ascii=False)
 
 def collect(keyword, category):
     print(f"\n🔍 Collecting meta for {keyword}")
-    query = f"ytsearch{MAX_RESULTS}:{keyword}"
+    query = f"ytsearch{config.MAX_RESULTS}:{keyword}"
     ydl_opts = {
-        'quiet': True,
-        'cookiefile': COOKIE_PATH,
-        'extract_flat': True,
-        'forcejson': False,
-        'simulate': True,
-        'extractor_args': {'youtube': ['player-client=tv_embedded']}
+        "quiet": True,
+        "cookiefile": str(config.COOKIE_PATH),
+        "extract_flat": True,
+        "forcejson": False,
+        "simulate": True,
+        "extractor_args": config.youtube_extractor_args(config.YTDLP_COLLECT_PLAYER_CLIENT),
     }
     results = []
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         info = ydl.extract_info(query, download=False)
-        for e in tqdm(info.get('entries', []), desc=keyword, ncols=80):
-            if not e or "/shorts/" in e['url'] or "live" in e['url']:
+        for e in tqdm(info.get("entries", []), desc=keyword, ncols=80):
+            if not e or "/shorts/" in e["url"] or "live" in e["url"]:
                 continue
             desc = e.get("description", "") or ""
             results.append({
@@ -46,19 +51,19 @@ def collect(keyword, category):
                 "uploader": e.get("uploader"),
                 "keyword": keyword,
                 "category": category,
-                "collected_at": datetime.datetime.utcnow().isoformat()+"Z"
+                "collected_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
             })
-    meta_all = load_json(META_PATH, [])
+    meta_all = load_json(config.META_PATH, [])
     meta_all.extend(results)
-    save_json(META_PATH, meta_all)
+    save_json(config.META_PATH, meta_all)
     print(f"✅ Collected {len(results)} entries for {keyword}")
 
 def main():
-    ensure_dir(SAVE_ROOT)
+    config.validate_config()
     for cat, kws in CATEGORIES.items():
         for kw in kws:
             collect(kw, cat)
-            time.sleep(5)  # avoid Youtube Limit
+            time.sleep(config.COLLECT_SLEEP_SECONDS)
 
 if __name__ == "__main__":
     main()
