@@ -1,5 +1,4 @@
 # collect_meta.py
-import json
 import datetime
 import time
 
@@ -8,16 +7,7 @@ from tqdm import tqdm
 
 from CATEGORIES import CATEGORIES
 import config
-
-def load_json(path, default):
-    if not path.exists():
-        return default
-    with open(path, encoding="utf-8") as f:
-        return json.load(f)
-
-def save_json(path, data):
-    with open(path, "w", encoding="utf-8") as f:
-        json.dump(data, f, indent=2, ensure_ascii=False)
+from utils import append_unique_metas, load_json, save_json
 
 def collect(keyword, category):
     print(f"\n🔍 Collecting meta for {keyword}")
@@ -54,9 +44,13 @@ def collect(keyword, category):
                 "collected_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
             })
     meta_all = load_json(config.META_PATH, [])
-    meta_all.extend(results)
+    meta_all, added = append_unique_metas(meta_all, results)
     save_json(config.META_PATH, meta_all)
-    print(f"✅ Collected {len(results)} entries for {keyword}")
+    skipped = len(results) - added
+    msg = f"✅ Collected {added} new entries for {keyword}"
+    if skipped:
+        msg += f" (skipped {skipped} duplicates)"
+    print(msg)
 
 def main():
     config.validate_config()

@@ -7,6 +7,7 @@ import time
 import yt_dlp
 
 import config
+from utils import download_succeeded
 
 
 def delete_local_files():
@@ -53,19 +54,26 @@ def download_one(url, vid):
         "extractor_args": config.youtube_extractor_args(
             config.YTDLP_DOWNLOAD_PLAYER_CLIENT, po_token
         ),
-        "ignoreerrors": True,
     }
     for attempt in range(config.RETRY_LIMIT):
         try:
             with yt_dlp.YoutubeDL(ydl_opts) as ydl:
                 ydl.download([url])
+            if download_succeeded(
+                config.SAVE_ROOT,
+                config.GLOBAL_ARCHIVE,
+                vid,
+                config.MERGE_OUTPUT_FORMAT or "mp4",
+            ):
                 return True
+            print(f"⚠️ No output file for {vid}, retry {attempt + 1}")
+            time.sleep(10)
         except Exception as e:
             if "rate-limited" in str(e):
                 print(f"⚠️ Rate limited, sleeping {config.RATE_LIMIT_SLEEP_SECONDS}s")
                 time.sleep(config.RATE_LIMIT_SLEEP_SECONDS)
             else:
-                print(f"⚠️ Retry {attempt + 1} for {vid}")
+                print(f"⚠️ Retry {attempt + 1} for {vid}: {e}")
                 time.sleep(10)
     return False
 
